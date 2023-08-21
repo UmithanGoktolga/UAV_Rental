@@ -55,13 +55,7 @@ rentals_list(request):
 
 Fetches and displays all rentals in a list format.
 
-Throughout the views:
 
-print statements are used for debugging purposes, showing specific pieces of information in the console.
-messages is a Django utility that helps in displaying one-time notifications to the user.
-The redirect function is used to navigate to different endpoints based on the outcome of operations.
-The render function is used to serve HTML templates, often with a context that contains dynamic data to be rendered.
-In summary, this views.py file handles the primary operations related to UAVs and rentals – including CRUD operations (Create, Read, Update, Delete) – as well as user registration and authentication.
 
 
 --Models.py--
@@ -113,13 +107,7 @@ is_uav_available(): A method that checks if a UAV is available for rent. It does
 Meta: This inner class specifies model-specific options. The ordering option ensures that queries retrieving rentals are ordered by the start_date in descending order.
 __str__: Provides a human-readable representation of the Rental instance.
 
-The models defined in this file enable you to:
 
-Create a custom user system with attributes like name, surname, email, etc.
-Categorize UAVs.
-Keep a record of all the UAVs along with their details and availability status.
-Record all rentals of UAVs, the user renting them, and the rental period.
-The relationships between models (like ForeignKey between UAV and Category) allow you to associate UAVs with specific categories and users with specific rentals.
 
 
 --Forms.py--
@@ -160,4 +148,4 @@ It then checks for overlapping rentals. It's ensuring that the same UAV isn't re
 
 The debug print statements are for helping in development, giving insights on what's being checked during the validation.
 
-In essence, forms.py defines the structure and validation of the forms used in the application. ModelForms, make it straightforward to create forms based on the data models of the application. They ensure that data adheres to the constraints and logic of your business rules, providing a secure and coherent user experience.
+
