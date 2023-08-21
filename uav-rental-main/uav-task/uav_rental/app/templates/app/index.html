@@ -1,0 +1,121 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'app/css/index.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+        integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
+        integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+        integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <title>UAV Rental | Home</title>
+</head>
+
+<body>
+    <div class="header">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">UAV Rental</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    {% if not request.user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login_user' %}">Login</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout_user' %}">Logout</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+        <nav class="navbar">
+            <div class="navbar-container container">
+                <input type="checkbox" name="" id="">
+                <div class="hamburger-lines">
+                    <span class="line line1"></span>
+                    <span class="line line2"></span>
+                    <span class="line line3"></span>
+                </div>
+                <ul class="menu-items">
+                    <li>
+
+                    </li>
+                    <li><a href="/add/" title="Add new uav"><i class="fa-solid fa-plus"></i></a></li>
+                </ul>
+                <h1 class="logo">UAV RENTAL</h1>
+            </div>
+        </nav>
+    </div>
+    <br><br>
+    <div class="container">
+        <div class="column">
+            <div class="row">
+                {% for item in uavs %}
+                <div class="col-sm-4">
+                    <div class="card-container">
+                        <a href="/" class="hero-image-container">
+                            <img class="hero-image"
+                                src="https://img.piri.net/resim/imagecrop/2021/09/13/04/58/resized_b9565-6b25c3c7bayraktartb2.jpg"
+                                alt="Spinning glass cube" />
+                        </a>
+                        <main class="main-content">
+                            <div class="brand">
+                                <h1><a href="#">{{ item.brand }}</a></h1>
+                            </div>
+                            <div class="model">
+                                <p>Model of UAV is&nbsp;&nbsp; <strong>{{ item.model }}</strong></p>
+                            </div>
+                            <div class="flex-row">
+                                <div class="coin-base">
+                                    <h2>{{ item.weigth }} kg</h2>
+                                </div>
+                                <div class="time-left">
+                                    <p>{{ item.category }}</p>
+                                </div>
+                            </div>
+                        </main>
+                        <div class="card-attribute">
+                            <p>Created by<span> CUG</span></p>
+                            <div class="crud-buttons" style="display: flex;  margin-left: 50%; margin-bottom: 1rem;">
+                                <a title="Rent" href="{% url 'add_rental' %}" class="btn text-success px-0"><i class="fa-regular fa-handshake"></i></a> <!-- Rent Button -->
+                                <a title="Update" href="{% url 'uav_update' item.id %}" class="btn text-secondary px-0"><i class="fa-regular fa-pen-to-square"></i></a>
+                                <form action="{% url 'uav_delete' item.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" title="Delete" class="btn"><i class="fa-solid fa-trash-can text-danger float-right"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+
+            $("#search-addon").on("click", function () {
+
+                var value = $("#myInput").val().toLowerCase();
+
+                $("#brand").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
