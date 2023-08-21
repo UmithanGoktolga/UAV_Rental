@@ -1,5 +1,5 @@
 # uav-rental
-Here is detailed explanations for Models and Views:
+Here is detailed explanations for Models, Views and Forms:
 
 --Views.py--
 
@@ -120,3 +120,44 @@ Categorize UAVs.
 Keep a record of all the UAVs along with their details and availability status.
 Record all rentals of UAVs, the user renting them, and the rental period.
 The relationships between models (like ForeignKey between UAV and Category) allow you to associate UAVs with specific categories and users with specific rentals.
+
+
+--Forms.py--
+
+Imports:
+
+forms from django: This provides the base classes and functionalities needed to define Django forms.
+models: This imports all the models you've defined in your models.py file.
+
+UAVForm:
+
+This is a Django ModelForm for the UAV model. ModelForms are a way to generate Django forms directly from Django models. They ease the creation process by automatically generating form fields from the model fields.
+
+Meta class: Contains meta data about the form.
+model: The model the form is associated with (in this case, models.UAV).
+fields: The model fields that should be included in the form.
+labels: Custom labels for each field. This helps in providing more readable or user-friendly labels for form fields.
+
+RentalForm:
+
+This form represents the rental process where a user rents a UAV.
+
+Meta class:
+
+model: Associated with the models.Rental model.
+fields: Specifies which fields are included in the form.
+labels: Custom labels for the fields.
+widgets: These are used to customize how certain form fields should be rendered in the template. For instance, the start_date and end_date are being rendered using a DateTimeInput widget that's specifically set to a datetime-local input type, providing a user-friendly date-time picker in supporting browsers.
+
+clean method:
+This is an essential method for any Django form when you need to perform custom validation on the form data.
+
+After fetching the cleaned data:
+
+It checks if the start_date is not greater than or equal to the end_date. If it is, it raises a validation error, ensuring that a rental period has a logical start and end time.
+
+It then checks for overlapping rentals. It's ensuring that the same UAV isn't rented out by two different users at overlapping times. If there's an overlap, a validation error is raised.
+
+The debug print statements are for helping in development, giving insights on what's being checked during the validation.
+
+In essence, forms.py defines the structure and validation of the forms used in the application. ModelForms, make it straightforward to create forms based on the data models of the application. They ensure that data adheres to the constraints and logic of your business rules, providing a secure and coherent user experience.
